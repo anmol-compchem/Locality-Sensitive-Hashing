@@ -1,0 +1,38 @@
+UNITS TIME=fs
+LOAD FILE=StructureFactor_descriptor.test.cpp
+
+GROUP ATOMS=1-108 LABEL=Na
+GROUP ATOMS=109-216 LABEL=Cl
+GROUP ATOMS=1-216 LABEL=Nacl
+
+s1: STRUCTURE_FACTOR_DESCRIPTOR_TEST ACTIVE_SHELLS=27,36,72,99 ATOMS=Na
+s2: STRUCTURE_FACTOR_DESCRIPTOR_TEST ACTIVE_SHELLS=27,36,72,99 ATOMS=Cl
+
+sum1: CUSTOM ARG=s1.Sk-[3_-3_-3],s1.Sk-[3_-3_3],s1.Sk-[3_3_-3],s1.Sk-[3_3_3] VAR=a,b,c,d FUNC=a+b+c+d PERIODIC=NO
+
+sum2: CUSTOM ARG=s2.Sk-[3_-3_-3],s2.Sk-[3_-3_3],s2.Sk-[3_3_-3],s2.Sk-[3_3_3] VAR=a,b,c,d FUNC=a+b+c+d PERIODIC=NO
+
+s12: MATHEVAL ARG=sum1,sum2 FUNC=0.5*(x+y) PERIODIC=NO
+
+d1: CUSTOM ARG=s1.Sk-[3_-3_-3],s1.Sk-[3_-3_3] FUNC=(x-y)*(x-y) PERIODIC=NO 
+d2: CUSTOM ARG=s2.Sk-[3_-3_-3],s2.Sk-[3_-3_3] FUNC=(x-y)*(x-y) PERIODIC=NO
+
+METAD ...
+  LABEL=meta
+  ARG=s12
+  PACE=100
+  SIGMA=1.5
+  HEIGHT=2
+  BIASFACTOR=30
+  TEMP=1100
+...
+
+uwall: UPPER_WALLS ARG=s12 AT=40 KAPPA=5000
+lwall: LOWER_WALLS ARG=s12 AT=0 KAPPA=5000
+uwall2: UPPER_WALLS ARG=d1,d2 AT=25,25 KAPPA=5000,5000
+
+FLUSH STRIDE=1
+PRINT STRIDE=100 FILE=COLVAR-Na ARG=sum1,s1.Sk-[3_-3_-3],s1.Sk-[3_-3_3],s1.Sk-[3_3_-3],s1.Sk-[3_3_3],s1.Sk-[6_0_0],s1.Sk-[0_6_-6],s1.Sk-[0_6_6],s1.Sk-[6_-6_0],s1.Sk-[6_0_-6],s1.Sk-[6_0_6],s1.Sk-[6_6_0],s1.Sk-[9_-3_-3],s1.Sk-[9_-3_3],s1.Sk-[9_3_-3],s1.Sk-[9_3_3]
+PRINT STRIDE=100 FILE=COLVAR-Cl ARG=sum2,s2.Sk-[3_-3_-3],s2.Sk-[3_-3_3],s2.Sk-[3_3_-3],s2.Sk-[3_3_3],s2.Sk-[6_0_0],s2.Sk-[0_6_-6],s2.Sk-[0_6_6],s2.Sk-[6_-6_0],s2.Sk-[6_0_-6],s2.Sk-[6_0_6],s2.Sk-[6_6_0],s2.Sk-[9_-3_-3],s2.Sk-[9_-3_3],s2.Sk-[9_3_-3],s2.Sk-[9_3_3]
+PRINT STRIDE=100 FILE=COLVAR ARG=s12,meta.*,lwall.*,uwall.*,uwall2.*  
+

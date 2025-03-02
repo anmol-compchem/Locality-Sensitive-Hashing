@@ -1,0 +1,54 @@
+variable        NSTEPS          	equal 40000000 
+variable        THERMO_FREQ     	equal 20
+variable        DUMP_FREQ       	equal 20
+variable        TEMP            	equal 300
+variable        SEED1           	equal 78141439
+variable        SEED2           	equal 25221734
+variable        dt              	equal 0.05e-3
+variable        tdamp           	equal 100*${dt}
+
+units           metal
+boundary        p p p
+
+atom_style      atomic
+neigh_modify    delay 10 every 1
+
+#read_restart	restart.32000000
+read_data       conf.lmp
+
+
+
+mass 1          15.999400 # O
+mass 2          1.007940 # H
+mass 3          12.010700 # C
+mass 4          35.452999 # Cl
+mass 5          14.006700 # N
+
+#mass 1          12.010700 # C
+#mass 2          1.007940 # H
+#mass 3          14.006700 # N
+#mass 4          15.999400 # O
+#mass 5          35.452999 # Cl
+
+
+pair_style      deepmd model.pb 
+pair_coeff      * * O H C Cl N
+
+# TIMESTEP
+timestep        0.5e-03
+
+thermo          ${THERMO_FREQ}
+thermo_style    custom step temp pe ke etotal press vol lx ly lz xy xz yz
+thermo_modify   flush yes
+restart         100000 restart 
+
+# DUMP
+#dump            myDump all custom ${DUMP_FREQ} all.lammpstrj id type x y z 
+
+# equil - NVT
+velocity        all create ${TEMP} ${SEED2} dist gaussian
+run_style       verlet
+fix             1 all nvt temp ${TEMP} ${TEMP} ${tdamp} 
+dump            dpgen_dump all custom 20  all.lammpstrj id type x y z
+fix            dpgen_plm all plumed plumedfile input.plumed outfile output.plumed
+run             ${NSTEPS}

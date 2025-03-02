@@ -1,0 +1,50 @@
+# Load the PLUMED plugin
+plugin load /home/chemistry/phd/cyz208667/Softwares/test_install/lammps-29Aug2024/examples/PACKAGES/plumed/plugin/build/plumedplugin.so
+
+variable        NSTEPS          	equal 20000000 
+variable        THERMO_FREQ     	equal 100
+variable        DUMP_FREQ       	equal 100
+variable        TEMP            	equal 1100
+variable        SEED1                   equal 15883
+variable        SEED2                   equal 35253
+variable        dt              	equal 0.05e-3
+variable        tdamp1           	equal 100*${dt}
+variable        tdamp2           	equal 200*${dt}
+variable        PRESSURE           	equal 1
+
+units           metal
+boundary        p p p
+
+atom_style      atomic
+neigh_modify    delay 10 every 1
+
+read_data       conf.lmp
+
+
+
+mass 1         22.9898 
+mass 2         35.4530
+
+pair_style      deepmd model.pb 
+pair_coeff      * * Na Cl
+
+# TIMESTEP
+timestep        0.5e-03
+
+thermo          ${THERMO_FREQ}
+thermo_style    custom step temp pe ke etotal press vol lx ly lz xy xz yz
+thermo_modify   flush yes
+restart         100000 restart 
+
+# DUMP
+#dump            myDump all custom ${DUMP_FREQ} all.lammpstrj id type x y z 
+
+# equil - NVT
+velocity        all create ${TEMP} ${SEED2} dist gaussian
+run_style       verlet
+fix            dpgen_plm all plumed plumedfile input.plumed outfile output.plumed
+fix             1 all npt temp ${TEMP} ${TEMP} ${tdamp1} iso ${PRESSURE} ${PRESSURE} ${tdamp2}
+dump            dpgen_dump all custom ${DUMP_FREQ} all.lmp id element type xu yu zu
+#fix            dpgen_plm all plumed plumedfile input.plumed outfile output.plumed
+dump_modify     dpgen_dump element Na Cl
+run             ${NSTEPS}
