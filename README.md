@@ -14,7 +14,8 @@ To run the scripts, first create a Conda environment named **`lsh`** using the p
 
 ```bash
 conda env create -f environment.yml
- 
+conda activate lsh
+ ```
 Workflow
 
 Step 1: Generate SOAP Descriptors
@@ -49,4 +50,3 @@ Finally, structure the hashed dataset using distil.py:
 python Hashing/distil.py
 This refines clusters and outputs a well-structured dataset.
 
-```
