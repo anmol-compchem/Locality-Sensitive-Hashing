@@ -5,7 +5,7 @@ This repository contains all the Python scripts, machine-learned potential model
 **"Locality Sensitive Hashing-based Dataset Reduction for Deep Potential Training"**  
 
 ## **Project Overview**  
-In this work, we present a novel method based on locality-sensitive hashing designed to minimize the dataset size, thereby reducing the number of expensive quantum chemical calculations while preserving dataset diversity and accuracy. Our approach achieves dataset reductions of nearly an order of magnitude.  
+We present a novel method based on locality-sensitive hashing designed to minimize the dataset size, thereby reducing the number of expensive quantum chemical calculations while preserving dataset diversity and accuracy. Our approach achieves dataset reductions of nearly an order of magnitude.  
 
 ## **Installation and Setup**  
 
