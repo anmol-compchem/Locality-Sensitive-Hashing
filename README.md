@@ -47,11 +47,9 @@ Results are stored in hash_buckets_output
 ### **Step 3: Generate the Final Bucket List**
 Finally, structure the hashed dataset using distil.py
 
-python Hashing/distil.py
+python3 Hashing/distil.py
 This refines clusters and outputs a well-structured dataset.
 
 ## Algorithm Reference
 For details on the algorithm, refer to [Algorithm.pdf](Algorithm.pdf).
-
-
 
