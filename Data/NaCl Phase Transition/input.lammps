@@ -1,6 +1,3 @@
-# Load the PLUMED plugin
-plugin load /home/chemistry/phd/cyz208667/Softwares/test_install/lammps-29Aug2024/examples/PACKAGES/plumed/plugin/build/plumedplugin.so
-
 variable        NSTEPS          	equal 20000000 
 variable        THERMO_FREQ     	equal 100
 variable        DUMP_FREQ       	equal 100
