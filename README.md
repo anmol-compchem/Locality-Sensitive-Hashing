@@ -16,9 +16,9 @@ To run the scripts, first create a Conda environment named **`lsh`** using the p
 conda env create -f environment.yml
 conda activate lsh
  ```
-Workflow
+## **Workflow**
 
-Step 1: Generate SOAP Descriptors
+### **Step 1: Generate SOAP Descriptors**
 
 XYZ files (SOAP_xyz.py)
 GROMACS XTC trajectory files (SOAP_gro.py)
@@ -31,11 +31,11 @@ python3 Hashing/SOAP_xyz.py
 For GROMACS XTC Files:
 python3 Hashing/SOAP_gro.py
 
-Step 2: Apply Locality Sensitive Hashing (LSH)
+### **Step 2: Apply Locality Sensitive Hashing (LSH)**
 After generating SOAP descriptors, run hashing.py to perform hashing:
 
 python3 Hashing/hashing.py
-Parameters:
+#### **Parameters**
 PCA Components: Number of dimensions to retain
 Bin Width: Controls clustering sensitivity
 This step Flattens and normalizes SOAP descriptors
@@ -44,7 +44,7 @@ This step Flattens and normalizes SOAP descriptors
 
 Results are stored in hash_buckets_output/.
 
-Step 3: Generate the Final Bucket List
+### **Step 3: Generate the Final Bucket List**
 Finally, structure the hashed dataset using distil.py:
 
 python Hashing/distil.py
