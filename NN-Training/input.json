@@ -1,0 +1,71 @@
+{
+    "model": {
+        "descriptor": {
+            "type": "se_e2_a",
+            "rcut_smth": 5.5,
+            "rcut": 6,
+            "neuron": [
+                32,
+                64,
+                128
+            ],
+            "resnet_dt": true,
+            "axis_neuron": 16,
+            "seed": 4616321635
+        },
+        "fitting_net": {
+            "neuron": [
+                240,
+                240,
+                240
+            ],
+            "resnet_dt": true,
+            "seed": 413164651563
+        },
+        "type_map": [
+            "Na",
+            "Cl"
+        ]
+    },
+    "learning_rate": {
+        "type": "exp",
+        "start_lr": 0.001,
+        "decay_steps": 5000,
+        "stop_lr": 3.51e-08
+    },
+    "loss": {
+        "type": "ener",
+        "start_pref_e": 0.02,
+        "limit_pref_e": 1,
+        "start_pref_f": 100,
+        "limit_pref_f": 1,
+        "start_pref_v": 0.1,
+        "limit_pref_v": 1
+    },
+    "training": {
+        "numb_steps": 1000000,
+        "disp_file": "lcurve.out",
+        "disp_freq": 100,
+        "save_freq": 500,
+        "save_ckpt": "model.ckpt",
+        "training_data": {
+            "systems": [
+                "../training_data"
+            ],
+            "batch_size": [
+		20
+            ]
+        },
+"validation_data": {
+      "systems": [
+        "../validation_data"
+      ],
+      "batch_size":[
+                20
+            ],
+      "_comment": "that's all"
+    },
+
+        "seed": 79521136627
+    }
+}
