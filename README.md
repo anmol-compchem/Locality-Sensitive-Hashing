@@ -9,7 +9,7 @@ In this work, we present a novel method based on locality-sensitive hashing desi
 
 ## **Installation and Setup**  
 
-### **1. Create the Conda Environment**  
+### **Create the Conda Environment**  
 To run the scripts, first create a Conda environment named **`lsh`** using the provided `environment.yml` file:  
 
 ```bash
